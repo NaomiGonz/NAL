@@ -8,10 +8,11 @@
   --color-mediumblue: #3C4F76;
   --color-ivory: #FFFDF7;
   --color-green: #667761;
-  --color-lightblue: #AFCBFF; 
+  --color-lightblue: #AFCBFF;
   --color-darkblue: #0E1C36;
 }
 
 body {
   background-color: #FFFDF7;
+  font-family: 'Onest', sans-serif; /* Apply Onest font globally */
 }
