@@ -9,4 +9,9 @@
   --color-ivory: #FFFDF7;
   --color-green: #667761;
   --color-lightblue: #AFCBFF; 
+  --color-darkblue: #0E1C36;
+}
+
+body {
+  background-color: #FFFDF7;
 }

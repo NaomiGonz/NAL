@@ -68,7 +68,7 @@ const Quiz = () => {
 
   if (!hasStarted && !done) {
     return (
-      <div className="py-20">
+      <div className="py-20 bg-ivory">
         <h2>Start the Rare Disease Quiz</h2>
         <div style={{ marginTop: '20px' }}>
           <label>Sex assigned at birth:</label>

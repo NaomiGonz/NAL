@@ -4,9 +4,10 @@ import NavBar from "./components/NavBar";
 
 const App = () => {
   return (
-    <div>
+    <div className="bg-ivory">
       <NavBar />
       <Outlet />
+
     </div>
   );
 };
