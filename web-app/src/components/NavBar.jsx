@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "./Button.jsx";
-import logo from "/health-insurance.png";
+import logo from "/hackRare.png";
 
 const NavBar = () => {
   const [navbarOpen, setNavbarOpen] = useState(false);
