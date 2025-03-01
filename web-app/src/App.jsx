@@ -1,13 +1,11 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
+import NavBar from "./components/NavBar";
 
 const App = () => {
   return (
     <div>
-      {/* 
-        MAYBE: NavBar? 
-        Could add more public pages like about the team and mechanical/hardware details
-      */}
+      <NavBar />
       <Outlet />
     </div>
   );
