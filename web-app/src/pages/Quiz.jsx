@@ -158,13 +158,20 @@ const Quiz = () => {
         )}
 
         <div className="mt-6">
-          <Button
+        <button
+              onClick={handleStartQuiz}
+              transparent={false}
+              className="text-ivory font-light bg-green px-6 py-2 border-2 border-medium transition-colors duration-300 rounded-full hover:bg-green mt-20 absolute left-1/2 transform -translate-x-1/2"
+            >
+              Start Quiz 
+            </button>
+          {/* <Button
             text="Start Quiz"
-            color="black"
+            color="#667761"
             onClick={handleStartQuiz}
             transparent={false}
-            className="text-black"
-          />
+            className="text-ivory font-light bg-mediumblue px-6 py-2 border-2 border-medium transition-colors duration-300 rounded-full hover:bg-green"
+          /> */}
         </div>
       </div>
     )
