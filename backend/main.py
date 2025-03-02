@@ -1,5 +1,3 @@
-# backend/main.py
-
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -13,7 +11,6 @@ app = FastAPI(title="RareDisease Adaptive Quiz API")
 # Enable CORS so that requests from http://localhost:5173 (the React dev server) work.
 origins = [
     "http://localhost:5173",
-    # You can add other allowed origins here.
 ]
 app.add_middleware(
     CORSMiddleware,
@@ -36,6 +33,7 @@ class StartQuizRequest(BaseModel):
     sex: str
     age: int
     initial_symptoms: List[str]
+    previous_diagnosis: Optional[str] = ""  # New field for previous diagnosis
 
 class StartQuizResponse(BaseModel):
     session_id: str
@@ -62,7 +60,8 @@ def start_quiz(payload: StartQuizRequest):
     user_state = adaptive_model.initialize_state(
         sex=payload.sex,
         age=payload.age,
-        initial_symptoms=payload.initial_symptoms
+        initial_symptoms=payload.initial_symptoms,
+        previous_diagnosis=payload.previous_diagnosis
     )
     SESSIONS[session_id] = user_state
 

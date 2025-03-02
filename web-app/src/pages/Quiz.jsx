@@ -6,6 +6,8 @@ const Quiz = () => {
   const [sex, setSex] = useState('')
   const [age, setAge] = useState('')
   const [symptoms, setSymptoms] = useState('') // comma separated
+  const [hasPrevDiagnosis, setHasPrevDiagnosis] = useState('no') // "yes" or "no"
+  const [prevDiagnosis, setPrevDiagnosis] = useState('')
   const [hasStarted, setHasStarted] = useState(false)
 
   // Quiz state
@@ -17,10 +19,19 @@ const Quiz = () => {
 
   // Start the quiz by sending the initial data to the backend.
   const handleStartQuiz = async () => {
-    const initial_symptoms = symptoms.split(',')
+    const initial_symptoms = symptoms
+      .split(',')
       .map(s => s.trim())
       .filter(s => s)
-    const payload = { sex, age: parseInt(age, 10), initial_symptoms }
+    // If the user selected "yes" for previous diagnosis, include the entered diagnosis;
+    // otherwise, send an empty string.
+    const previous_diagnosis = hasPrevDiagnosis === "yes" ? prevDiagnosis.trim() : ""
+    const payload = { 
+      sex, 
+      age: parseInt(age, 10), 
+      initial_symptoms,
+      previous_diagnosis
+    }
 
     try {
       const resp = await fetch('http://localhost:8000/start_quiz', {
@@ -69,42 +80,85 @@ const Quiz = () => {
   if (!hasStarted && !done) {
     return (
       <div className="py-20 bg-ivory">
-        <h2>Start the Rare Disease Quiz</h2>
-        <div style={{ marginTop: '20px' }}>
-          <label>Sex assigned at birth:</label>
-          <select value={sex} onChange={(e) => setSex(e.target.value)}>
+        <h2 className="text-2xl font-semibold mb-4">Start the Rare Disease Quiz</h2>
+        
+        {/* Sex Selection */}
+        <div className="mt-4">
+          <label className="block mb-1">Sex assigned at birth:</label>
+          <select 
+            value={sex} 
+            onChange={(e) => setSex(e.target.value)}
+            className="border border-gray-300 rounded p-2 w-full"
+          >
             <option value="">Select Sex</option>
             <option value="female">Female</option>
             <option value="male">Male</option>
             <option value="intersex">Intersex</option>
           </select>
         </div>
-        <div style={{ marginTop: '20px' }}>
-          <label>Age:</label>
-          <select value={age} onChange={(e) => setAge(e.target.value)}>
+
+        {/* Age Dropdown */}
+        <div className="mt-4">
+          <label className="block mb-1">Age:</label>
+          <select 
+            value={age} 
+            onChange={(e) => setAge(e.target.value)}
+            className="border border-gray-300 rounded p-2 w-full"
+          >
             <option value="">Select Age</option>
             {Array.from({ length: 121 }, (_, i) => (
               <option key={i} value={i}>{i}</option>
             ))}
           </select>
         </div>
-        <div style={{ marginTop: '20px' }}>
-          <label>Symptoms (comma separated):</label>
+
+        {/* Symptoms Input */}
+        <div className="mt-4">
+          <label className="block mb-1">Symptoms (comma separated):</label>
           <input 
             type="text" 
             value={symptoms} 
             onChange={(e) => setSymptoms(e.target.value)} 
             placeholder="e.g., seizures, abnormal heart morphology"
+            className="border border-gray-300 rounded p-2 w-full"
           />
         </div>
-        <div style={{ marginTop: '20px' }}>
-        <Button
-              text="Start Quiz"
-              color="black"
-              onClick={handleStartQuiz}
-              transparent={false}
-              className="text-black"
+
+        {/* Previous Diagnosis Selection */}
+        <div className="mt-4">
+          <label className="block mb-1">Have you received a previous diagnosis?</label>
+          <select 
+            value={hasPrevDiagnosis} 
+            onChange={(e) => setHasPrevDiagnosis(e.target.value)}
+            className="border border-gray-300 rounded p-2 w-full"
+          >
+            <option value="no">No</option>
+            <option value="yes">Yes</option>
+          </select>
+        </div>
+
+        {/* Previous Diagnosis Input (conditionally rendered) */}
+        {hasPrevDiagnosis === "yes" && (
+          <div className="mt-4">
+            <label className="block mb-1">Previous Diagnosis:</label>
+            <input 
+              type="text" 
+              value={prevDiagnosis} 
+              onChange={(e) => setPrevDiagnosis(e.target.value)}
+              placeholder="e.g., Developmental and epileptic encephalopathy 96"
+              className="border border-gray-300 rounded p-2 w-full"
             />
+          </div>
+        )}
+
+        <div className="mt-6">
+          <Button
+            text="Start Quiz"
+            color="black"
+            onClick={handleStartQuiz}
+            transparent={false}
+            className="text-black"
+          />
         </div>
       </div>
     )
@@ -112,10 +166,10 @@ const Quiz = () => {
 
   if (done) {
     return (
-      <div className="py-20">
-        <h2>Quiz Finished</h2>
-        <p>Top probable diseases:</p>
-        <ul>
+      <div className="py-20 bg-ivory">
+        <h2 className="text-2xl font-semibold mb-4">Quiz Finished</h2>
+        <p className="mb-4">Top probable diseases:</p>
+        <ul className="list-disc list-inside">
           {topDiseases.map((d, idx) => (
             <li key={idx}>{d}</li>
           ))}
@@ -125,10 +179,10 @@ const Quiz = () => {
   }
 
   return (
-    <div className="py-20">
-      <h2>Adaptive Quiz</h2>
-      <p style={{ marginTop: '20px' }}>{questionText}</p>
-      <div>
+    <div className="py-20 bg-blue">
+      <h2 className="text-2xl font-semibold mb-4">Adaptive Quiz</h2>
+      <p className="mb-6">{questionText}</p>
+      <div className='space-x-4'>
         <button onClick={() => submitAnswer('yes')}>Yes</button>
         <button onClick={() => submitAnswer('no')}>No</button>
         <button onClick={() => submitAnswer('unknown')}>Unknown</button>
@@ -137,5 +191,4 @@ const Quiz = () => {
   )
 }
 
-export default Quiz
-
+export default Quiz;

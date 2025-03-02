@@ -22,10 +22,11 @@ class AdaptiveQuestioningModel:
             else:
                 self.questions_pool[hpo_id] = f"Does the patient have {hpo_id}?"
                 
-    def initialize_state(self, sex: str, age: int, initial_symptoms: List[str]) -> dict:
+    def initialize_state(self, sex: str, age: int, initial_symptoms: List[str], previous_diagnosis: str = "") -> dict:
         """
-        Create a user state from the provided sex, age, and initial symptoms.
+        Create a user state from the provided sex, age, initial symptoms, and previous diagnosis.
         Attempts to match textual symptoms to HPO terms (if the symptom is a substring of the HPO label).
+        If a previous diagnosis is provided, attempts to add its associated HPO terms.
         """
         user_state = {
             "sex": sex,
@@ -35,15 +36,27 @@ class AdaptiveQuestioningModel:
             "disease_prob": {dz: 1.0 / len(self.disease_to_hpo) for dz in self.disease_to_hpo},
             "max_questions": 40,
             "question_count": 0,
-            "confidence_threshold": 0.9
+            "confidence_threshold": 0.9,
+            "previous_diagnosis": previous_diagnosis,
         }
-        # Process initial symptoms: try to map each provided symptom to an HPO term by checking the label.
+        # Process initial symptoms: map provided symptoms to HPO terms.
         for symptom in initial_symptoms:
             for hpo_id, info in self.hp_map.items():
                 if symptom.lower() in info["label"].lower():
                     if hpo_id in user_state["remaining_questions"]:
                         user_state["answered_questions"][hpo_id] = "yes"
                         user_state["remaining_questions"].remove(hpo_id)
+        # If a previous diagnosis is provided, look for an exact match in disease names.
+        if previous_diagnosis:
+            for disease_id, disease_name in self.disease_to_name.items():
+                if previous_diagnosis.lower() == disease_name.lower():
+                    prev_dx_terms = self.disease_to_hpo.get(disease_id, set())
+                    user_state["prev_dx_hpo"] = list(prev_dx_terms)
+                    # Add the previous diagnosis HPO terms into remaining_questions if not already answered.
+                    for hpo in prev_dx_terms:
+                        if hpo not in user_state["answered_questions"] and hpo not in user_state["remaining_questions"]:
+                            user_state["remaining_questions"].append(hpo)
+                    break
         self._update_disease_probabilities(user_state)
         return user_state
     
@@ -79,7 +92,6 @@ class AdaptiveQuestioningModel:
                     likelihood *= 0.8 if hpo_id in hpo_set else 0.2
                 elif ans == "no":
                     likelihood *= 0.2 if hpo_id in hpo_set else 0.8
-                # For "unknown", we do not update the likelihood.
             probs[dz] = likelihood
         # Normalize probabilities.
         total = sum(probs.values())
@@ -102,3 +114,4 @@ class AdaptiveQuestioningModel:
     def get_current_top_diseases(self, user_state: dict, top_k: int = 5) -> List[str]:
         sorted_dz = sorted(user_state["disease_prob"].items(), key=lambda x: x[1], reverse=True)
         return [self.disease_to_name[dz] for dz, _ in sorted_dz[:top_k]]
+
