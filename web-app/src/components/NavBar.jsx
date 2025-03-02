@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Button from "./Button.jsx";
+import Button from "./Button";
 import logo from "/hackRare.png";
 
 const NavBar = () => {
@@ -10,30 +10,35 @@ const NavBar = () => {
   const handleQuiz = () => {
     navigate("/quiz");
   };
+
   return (
     <>
-      <nav className="fixed w-full z-20 shadow-lg bg-engred">
+      {/* Navbar container */}
+      <nav className="fixed w-full z-20 shadow bg-white">
         <div className="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
-          {/* Logo */}
+          {/* Logo + Title */}
           <div className="flex items-center">
-            <Link to="/" className="text-2xl font-bold">
+            <Link to="/" className="text-2xl font-bold flex items-center">
               <img src={logo} alt="logo" className="w-10 h-10 mr-2" />
             </Link>
-            <span className="hidden sm:block text-xl font-semibold font-mono text-amber-50">
-              NAL
+            <span className="hidden sm:block text-xl font-semibold text-slate-800">
+              PhenoQ
             </span>
           </div>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex space-x-6">
-            <div className="pt-3 md:flex space-x-6">
-              <Link to="/" className="text-white hover:text-amber-50">
+          <div className="hidden md:flex space-x-6 items-center">
+            <div className="flex space-x-6">
+              <Link to="/" className="text-slate-800 hover:text-slate-600">
                 Home
               </Link>
-              <Link to="/about" className="text-white hover:text-amber-50">
+              <Link to="/about" className="text-slate-800 hover:text-slate-600">
                 About
               </Link>
-              <Link to="/resources" className="text-white hover:text-amber-50">
+              <Link
+                to="/resources"
+                className="text-slate-800 hover:text-slate-600"
+              >
                 Resources
               </Link>
             </div>
@@ -42,7 +47,7 @@ const NavBar = () => {
               color="black"
               onClick={handleQuiz}
               transparent={false}
-              className="text-black"
+              className="text-white bg-black hover:bg-gray-800"
             />
           </div>
 
@@ -82,36 +87,30 @@ const NavBar = () => {
 
       {/* Mobile Menu */}
       {navbarOpen && (
-        <div
-          className="md:hidden fixed top-16 left-0 w-full shadow-lg z-10"
-          style={{ backgroundColor: "var(--color-white)" }}
-        >
+        <div className="md:hidden fixed top-16 left-0 w-full shadow z-10 bg-white">
           <div className="px-4 pt-2 pb-3 space-y-3">
             <Link
               to="/"
               onClick={() => setNavbarOpen(false)}
-              className="block font-mono hover:opacity-80"
-              style={{ color: "var(--color-black)" }}
+              className="block font-mono text-slate-800 hover:text-slate-600"
             >
               Home
             </Link>
             <Link
               to="/about"
               onClick={() => setNavbarOpen(false)}
-              className="block font-mono hover:opacity-80"
-              style={{ color: "var(--color-black)" }}
+              className="block font-mono text-slate-800 hover:text-slate-600"
             >
               About
             </Link>
             <Link
               to="/resources"
               onClick={() => setNavbarOpen(false)}
-              className="block font-mono hover:opacity-80"
-              style={{ color: "var(--color-black)" }}
+              className="block font-mono text-slate-800 hover:text-slate-600"
             >
               Resources
             </Link>
-            {/* Logout Button */}
+            {/* Quiz Button */}
             <Button
               text="Quiz"
               onClick={() => {
@@ -120,7 +119,7 @@ const NavBar = () => {
               }}
               color="engred"
               transparent={false}
-              className="text-engred"
+              className="text-white bg-engred hover:bg-red-600"
             />
           </div>
         </div>
@@ -130,3 +129,4 @@ const NavBar = () => {
 };
 
 export default NavBar;
+
