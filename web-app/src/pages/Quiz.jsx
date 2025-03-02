@@ -86,15 +86,15 @@ const Quiz = () => {
   if (!hasStarted && !done) {
     return (
       <div className="py-20 bg-ivory">
-        <h2 className="text-2xl font-semibold mb-4">Start the Rare Disease Quiz</h2>
+        <h2 className="text-4xl font-semibold mb-4 mt-10 text-center text-mediumblue">Patient Background Information</h2>
         
         {/* Sex Selection */}
         <div className="mt-4">
-          <label className="block mb-1">Sex assigned at birth:</label>
+          <label className="block mb-1 text-center mt-10 text-2xl font-light text-mediumblue">Sex assigned at birth:</label>
           <select 
             value={sex} 
             onChange={(e) => setSex(e.target.value)}
-            className="border border-gray-300 rounded p-2 w-full"
+            className="border border-green rounded p-2 w-97 font-light text-mediumblue bg-ivory appearance-none absolute left-1/2 transform -translate-x-1/2"
           >
             <option value="">Select Sex</option>
             <option value="female">Female</option>
@@ -105,11 +105,11 @@ const Quiz = () => {
 
         {/* Age Dropdown */}
         <div className="mt-4">
-          <label className="block mb-1">Age:</label>
+          <label className="block mb-1 text-center mt-20 text-2xl font-light text-mediumblue">What is your age?:</label>
           <select 
             value={age} 
             onChange={(e) => setAge(e.target.value)}
-            className="border border-gray-300 rounded p-2 w-full"
+            className="border border-green rounded p-2 w-97 font-light text-mediumblue bg-ivory appearance-none absolute left-1/2 transform -translate-x-1/2"
           >
             <option value="">Select Age</option>
             {Array.from({ length: 121 }, (_, i) => (
@@ -120,23 +120,23 @@ const Quiz = () => {
 
         {/* Symptoms Input */}
         <div className="mt-4">
-          <label className="block mb-1">Symptoms (comma separated):</label>
+          <label className="block mb-1 text-center mt-20 text-2xl font-light text-mediumblue">What are your symptoms? (comma separated):</label>
           <input 
             type="text" 
             value={symptoms} 
             onChange={(e) => setSymptoms(e.target.value)} 
             placeholder="e.g., seizures, abnormal heart morphology"
-            className="border border-gray-300 rounded p-2 w-full"
+            className="border border-green rounded p-2 w-97 font-light text-mediumblue bg-ivory appearance-none absolute left-1/2 transform -translate-x-1/2"
           />
         </div>
 
         {/* Previous Diagnosis Selection */}
         <div className="mt-4">
-          <label className="block mb-1">Have you received a previous diagnosis?</label>
+          <label className="block mb-1 text-center mt-20 text-2xl font-light text-mediumblue">Have you received a previous diagnosis?</label>
           <select 
             value={hasPrevDiagnosis} 
             onChange={(e) => setHasPrevDiagnosis(e.target.value)}
-            className="border border-gray-300 rounded p-2 w-full"
+            className="border border-green rounded p-2 w-97 font-light text-mediumblue bg-ivory appearance-none absolute left-1/2 transform -translate-x-1/2"
           >
             <option value="no">No</option>
             <option value="yes">Yes</option>
@@ -146,13 +146,13 @@ const Quiz = () => {
         {/* Previous Diagnosis Input (conditionally rendered) */}
         {hasPrevDiagnosis === "yes" && (
           <div className="mt-4">
-            <label className="block mb-1">Previous Diagnosis:</label>
+            <label className="block mb-1 text-center mt-20 text-2xl font-light text-mediumblue">What was your previous diagnosis?:</label>
             <input 
               type="text" 
               value={prevDiagnosis} 
               onChange={(e) => setPrevDiagnosis(e.target.value)}
               placeholder="e.g., Developmental and epileptic encephalopathy 96"
-              className="border border-gray-300 rounded p-2 w-full"
+              className="border border-green rounded p-2 w-97 font-light text-mediumblue bg-ivory appearance-none absolute left-1/2 transform -translate-x-1/2"
             />
           </div>
         )}
