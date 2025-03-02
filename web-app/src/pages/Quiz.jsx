@@ -14,6 +14,7 @@ const Quiz = () => {
   const [sessionId, setSessionId] = useState(null)
   const [questionId, setQuestionId] = useState(null)
   const [questionText, setQuestionText] = useState('')
+  const [definitionText, setDefinitionText] = useState('') // <-- new field to store definition
   const [done, setDone] = useState(false)
   const [topDiseases, setTopDiseases] = useState([])
 
@@ -23,8 +24,7 @@ const Quiz = () => {
       .split(',')
       .map(s => s.trim())
       .filter(s => s)
-    // If the user selected "yes" for previous diagnosis, include the entered diagnosis;
-    // otherwise, send an empty string.
+    // If the user selected "yes" for previous diagnosis, include it; else send empty string.
     const previous_diagnosis = hasPrevDiagnosis === "yes" ? prevDiagnosis.trim() : ""
     const payload = { 
       sex, 
@@ -43,6 +43,8 @@ const Quiz = () => {
       setSessionId(data.session_id)
       setQuestionId(data.question_id)
       setQuestionText(data.question_text)
+      // If the backend includes "definition_text", store it; else store empty.
+      setDefinitionText(data.definition_text || '')
       setHasStarted(true)
     } catch (err) {
       console.error(err)
@@ -68,8 +70,11 @@ const Quiz = () => {
           setTopDiseases(data.top_diseases)
         }
       } else {
+        // set next question
         setQuestionId(data.next_question_id)
         setQuestionText(data.next_question_text)
+        // set definition if provided
+        setDefinitionText(data.definition_text || '')
       }
     } catch (err) {
       console.error(err)
@@ -77,6 +82,7 @@ const Quiz = () => {
     }
   }
 
+  // Render initial form if quiz hasn't started and isn't done
   if (!hasStarted && !done) {
     return (
       <div className="py-20 bg-ivory">
@@ -164,6 +170,7 @@ const Quiz = () => {
     )
   }
 
+  // If quiz is done, show top diseases
   if (done) {
     return (
       <div className="py-20 bg-ivory">
@@ -178,11 +185,20 @@ const Quiz = () => {
     )
   }
 
+  // Otherwise, we're in the middle of the quiz
   return (
     <div className="py-20 bg-blue">
       <h2 className="text-2xl font-semibold mb-4">Adaptive Quiz</h2>
-      <p className="mb-6">{questionText}</p>
-      <div className='space-x-4'>
+      
+      <p className="mb-2">{questionText}</p>
+      {/* Conditionally display definition if present */}
+      {definitionText && (
+        <p className="mb-4 italic text-gray-700">
+          Definition: {definitionText}
+        </p>
+      )}
+
+<div className='space-x-4'>
         <button onClick={() => submitAnswer('yes')}>Yes</button>
         <button onClick={() => submitAnswer('no')}>No</button>
         <button onClick={() => submitAnswer('unknown')}>Unknown</button>
@@ -191,4 +207,5 @@ const Quiz = () => {
   )
 }
 
-export default Quiz;
+export default Quiz
+

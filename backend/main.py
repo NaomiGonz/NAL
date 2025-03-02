@@ -8,10 +8,7 @@ from model.adaptive_model import AdaptiveQuestioningModel
 
 app = FastAPI(title="RareDisease Adaptive Quiz API")
 
-# Enable CORS so that requests from http://localhost:5173 (the React dev server) work.
-origins = [
-    "http://localhost:5173",
-]
+origins = ["http://localhost:5173"]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -20,40 +17,42 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# For demo purposes, store session state in-memory.
 SESSIONS: Dict[str, Any] = {}
 
-# Initialize the adaptive model (loads data files, etc.).
 adaptive_model = AdaptiveQuestioningModel()
 
-# ----------------------------
+# --------------------------------------------
 # Pydantic Schemas
-# ----------------------------
+# --------------------------------------------
 class StartQuizRequest(BaseModel):
     sex: str
     age: int
     initial_symptoms: List[str]
-    previous_diagnosis: Optional[str] = ""  # New field for previous diagnosis
+    previous_diagnosis: Optional[str] = ""
 
+# We add definition_text as an optional field
 class StartQuizResponse(BaseModel):
     session_id: str
     question_id: str
     question_text: str
+    definition_text: Optional[str] = None
 
 class AnswerQuestionRequest(BaseModel):
     session_id: str
     question_id: str
-    answer: str  # Expected: "yes", "no", or "unknown"
+    answer: str  # "yes", "no", or "unknown"
 
+# Also add definition_text here
 class AnswerQuestionResponse(BaseModel):
     next_question_id: Optional[str] = None
     next_question_text: Optional[str] = None
+    definition_text: Optional[str] = None
     done: bool = False
     top_diseases: Optional[List[str]] = None
 
-# ----------------------------
+# --------------------------------------------
 # Endpoints
-# ----------------------------
+# --------------------------------------------
 @app.post("/start_quiz", response_model=StartQuizResponse)
 def start_quiz(payload: StartQuizRequest):
     session_id = str(uuid.uuid4())
@@ -65,14 +64,15 @@ def start_quiz(payload: StartQuizRequest):
     )
     SESSIONS[session_id] = user_state
 
-    question_id, question_text = adaptive_model.get_next_question(user_state)
+    question_id, question_text, definition_text = adaptive_model.get_next_question(user_state)
     if question_id is None:
         raise HTTPException(status_code=500, detail="No question available.")
 
     return StartQuizResponse(
         session_id=session_id,
         question_id=question_id,
-        question_text=question_text
+        question_text=question_text,
+        definition_text=definition_text
     )
 
 @app.post("/answer_question", response_model=AnswerQuestionResponse)
@@ -81,9 +81,7 @@ def answer_question(payload: AnswerQuestionRequest):
     if not user_state:
         raise HTTPException(status_code=404, detail="Invalid session ID.")
 
-    done, top_diseases = adaptive_model.process_answer(
-        user_state, payload.question_id, payload.answer
-    )
+    done, top_diseases = adaptive_model.process_answer(user_state, payload.question_id, payload.answer)
 
     if done:
         return AnswerQuestionResponse(
@@ -91,7 +89,7 @@ def answer_question(payload: AnswerQuestionRequest):
             top_diseases=top_diseases
         )
     else:
-        next_q_id, next_q_text = adaptive_model.get_next_question(user_state)
+        next_q_id, next_q_text, definition_text = adaptive_model.get_next_question(user_state)
         if next_q_id is None:
             return AnswerQuestionResponse(
                 done=True,
@@ -100,6 +98,7 @@ def answer_question(payload: AnswerQuestionRequest):
         return AnswerQuestionResponse(
             next_question_id=next_q_id,
             next_question_text=next_q_text,
+            definition_text=definition_text,
             done=False
         )
 
