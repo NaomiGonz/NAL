@@ -14,7 +14,7 @@ const NavBar = () => {
   return (
     <>
       {/* Navbar container */}
-      <nav className="fixed w-full z-20 shadow bg-white">
+      <nav className="fixed w-full z-20">
         <div className="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
           {/* Logo + Title */}
           <div className="flex items-center">
