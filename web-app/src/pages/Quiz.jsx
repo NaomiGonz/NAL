@@ -174,7 +174,7 @@ const Quiz = () => {
   if (done) {
     return (
       <div className="py-20 bg-ivory">
-        <h2 className="text-2xl text-mediumblue text-center font-semibold mb-4">Quiz Finished</h2>
+        <h2 className="mt-30 text-2xl text-mediumblue text-center font-semibold mb-4">Quiz Finished</h2>
         <p className="mb-4 text-darkblue font-italicize text-center"> Important Note: The results provided by PhenoQ are based on the symptoms and information you've entered. </p>
         <p className = "mb-4 text-darkblue font-semibold text-center"> These are suggestions and not a substitute for professional medical advice, diagnosis, or treatment. </p>
         <div>
@@ -193,7 +193,7 @@ const Quiz = () => {
   // Otherwise, we're in the middle of the quiz
   return (
     <div className="py-20 bg-blue">
-      <h2 className="text-2xl text-mediumblue text-center font-semibold mb-4">{questionText}</h2>
+      <h2 className="mt-55 text-2xl text-mediumblue text-center font-semibold mb-4">{questionText}</h2>
       {/* Conditionally display definition if present */}
       {definitionText && (
         <p className="mb-4 italic text-darkblue text-center text-gray-700">
