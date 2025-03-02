@@ -1,11 +1,11 @@
 import React from "react";
-import backgroundSVG from "/Background.svg"; // Ensure this path is correct or in /public
+import backgroundPNG from "/Background.png"; // Ensure this path is correct or in /public
 
 const Welcome = () => {
   return (
     <div
       className="py-20 min-h-screen w-full bg-cover bg-no-repeat bg-center flex flex-col justify-center px-4"
-      style={{ backgroundImage: `url(${backgroundSVG})` }}
+      style={{ backgroundImage: `url(${backgroundPNG})` }}
     >
       <div className="max-w-4xl mx-auto text-left">
         <h1 className="text-6xl font-bold text-slate-800 mb-4">PhenoQ</h1>
