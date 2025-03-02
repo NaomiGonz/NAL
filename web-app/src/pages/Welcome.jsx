@@ -1,7 +1,13 @@
 import React from "react";
-import backgroundPNG from "/Background.png"; // Ensure this path is correct or in /public
+import backgroundPNG from "/Background.png";
+import { useNavigate } from "react-router-dom";
 
 const Welcome = () => {
+  const navigate = useNavigate();
+
+  const handleLearnMore = () => {
+    navigate("/about");
+  };
   return (
     <div
       className="py-20 min-h-screen w-full bg-cover bg-no-repeat bg-center flex flex-col justify-center px-4"
@@ -19,7 +25,12 @@ const Welcome = () => {
           questioning, PhenoQ guides users through a series of targeted
           questions about a patient’s symptoms and features.
         </p>
-        <button className="px-6 py-2 border-2 border-medium blue text-mediumblue rounded hover:bg-mediumblue hover:text-ivory transition-colors duration-300 rounded-full">
+        <button
+          className="px-6 py-2 border-2 border-medium blue text-mediumblue rounded hover:bg-mediumblue hover:text-ivory transition-colors duration-300 rounded-full"
+          onClick={() => {
+            handleLearnMore();
+          }}
+        >
           Learn More
         </button>
       </div>
@@ -28,5 +39,3 @@ const Welcome = () => {
 };
 
 export default Welcome;
-
-
