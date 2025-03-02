@@ -8,7 +8,7 @@ const NavBar = () => {
   const navigate = useNavigate();
 
   const handleQuiz = () => {
-    navigate("/quiz");
+    navigate("/quiz-start");
   };
 
   return (

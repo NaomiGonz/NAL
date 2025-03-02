@@ -4,6 +4,7 @@ import Welcome from "./pages/Welcome.jsx";
 import Resource from "./pages/Resource.jsx";
 import About from "./pages/About.jsx";
 import Quiz from "./pages/Quiz.jsx";
+import QuizStart from "./pages/QuizStart.jsx";
 
 const router = createBrowserRouter([
     {
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
             {
                 path: "about", 
                 element: <About />,
+            },
+            {
+                path: "quiz-start", 
+                element: <QuizStart />,
             },
             {
                 path: "quiz", 
