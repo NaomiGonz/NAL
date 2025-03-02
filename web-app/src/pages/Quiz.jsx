@@ -174,38 +174,56 @@ const Quiz = () => {
   if (done) {
     return (
       <div className="py-20 bg-ivory">
-        <h2 className="text-2xl font-semibold mb-4">Quiz Finished</h2>
-        <p className="mb-4">Top probable diseases:</p>
-        <ul className="list-disc list-inside">
+        <h2 className="text-2xl text-mediumblue text-center font-semibold mb-4">Quiz Finished</h2>
+        <p className="mb-4 text-darkblue font-italicize text-center"> Important Note: The results provided by PhenoQ are based on the symptoms and information you've entered. </p>
+        <p className = "mb-4 text-darkblue font-semibold text-center"> These are suggestions and not a substitute for professional medical advice, diagnosis, or treatment. </p>
+        <div>
+        <p className="mb-4 text-green font-semibold text-center">Top probable diseases:</p>
+        <ul className="list-disc list-inside w-fit mx-auto text-left">
           {topDiseases.map((d, idx) => (
             <li key={idx}>{d}</li>
           ))}
         </ul>
+        </div>
       </div>
+          
     )
   }
 
   // Otherwise, we're in the middle of the quiz
   return (
     <div className="py-20 bg-blue">
-      <h2 className="text-2xl font-semibold mb-4">Adaptive Quiz</h2>
-      
-      <p className="mb-2">{questionText}</p>
+      <h2 className="text-2xl text-mediumblue text-center font-semibold mb-4">{questionText}</h2>
       {/* Conditionally display definition if present */}
       {definitionText && (
-        <p className="mb-4 italic text-gray-700">
+        <p className="mb-4 italic text-darkblue text-center text-gray-700">
           Definition: {definitionText}
         </p>
       )}
-
-<div className='space-x-4'>
-        <button onClick={() => submitAnswer('yes')}>Yes</button>
-        <button onClick={() => submitAnswer('no')}>No</button>
-        <button onClick={() => submitAnswer('unknown')}>Unknown</button>
+      
+      <div className="flex justify-center space-x-4">
+        <button 
+          onClick={() => submitAnswer('yes')}
+          className="px-6 py-2 border-2 border-green text-mediumblue rounded-full hover:bg-blue-500 hover:text-lightblue transition-colors duration-300"
+        >
+          Yes
+        </button>
+        <button 
+          onClick={() => submitAnswer('no')}
+          className="px-6 py-2 border-2 border-green text-mediumblue rounded-full hover:bg-blue-500 hover:text-lightblue transition-colors duration-300"
+        >
+          No
+        </button>
+        <button 
+          onClick={() => submitAnswer('unknown')}
+          className="px-6 py-2 border-2 border-green text-mediumblue rounded-full hover:bg-blue-500 hover:text-lightblue transition-colors duration-300"
+        >
+          Unknown
+        </button>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Quiz
 
