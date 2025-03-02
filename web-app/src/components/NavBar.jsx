@@ -21,7 +21,7 @@ const NavBar = () => {
             <Link to="/" className="text-2xl font-bold flex items-center">
               <img src={logo} alt="logo" className="w-10 h-10 mr-2" />
             </Link>
-            <span className="hidden sm:block text-xl font-semibold text-slate-800">
+            <span className="hidden sm:block text-xl font-semibold text-mediumblue">
               PhenoQ
             </span>
           </div>
@@ -29,26 +29,26 @@ const NavBar = () => {
           {/* Desktop Menu */}
           <div className="hidden md:flex space-x-6 items-center">
             <div className="flex space-x-6">
-              <Link to="/" className="text-slate-800 hover:text-slate-600">
+              <Link to="/" className="text-darkblue font-light hover:text-mediumblue">
                 Home
               </Link>
-              <Link to="/about" className="text-slate-800 hover:text-slate-600">
+              <Link to="/about" className="text-darkblue font-light hover:text-mediumblue">
                 About
               </Link>
               <Link
                 to="/resources"
-                className="text-slate-800 hover:text-slate-600"
+                className="text-darkblue font-light hover:text-mediumblue"
               >
                 Resources
               </Link>
             </div>
-            <Button
-              text="Quiz"
-              color="black"
+            <button
               onClick={handleQuiz}
               transparent={false}
-              className="text-white bg-black hover:bg-gray-800"
-            />
+              className="text-ivory font-light bg-mediumblue px-6 py-2 border-2 border-medium transition-colors duration-300 rounded-full hover:bg-green"
+            >
+              Quiz 
+            </button>
           </div>
 
           {/* Mobile Hamburger Icon */}

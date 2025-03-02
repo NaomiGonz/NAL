@@ -15,10 +15,10 @@ const Welcome = () => {
     >
       <div className="max-w-4xl mx-auto text-left">
         <h1 className="text-9xl font-bold text-mediumblue mb-4">PhenoQ</h1>
-        <h2 className="text-3xl text-darkblue mb-8">
+        <h2 className="text-4xl font-light text-darkblue mb-8">
           Your Journey to Diagnosis Starts Here.
         </h2>
-        <p className="text-darkblue text-lg leading-relaxed mb-10">
+        <p className="text-darkblue font-light text-lg leading-relaxed mb-10">
           PhenoQ is a cutting-edge diagnostic tool designed to simplify and
           accelerate the process of identifying rare and complex diseases. By
           leveraging the Human Phenotype Ontology (HPO) and adaptive

@@ -1,7 +1,7 @@
 import React from "react";
 
 const Button = ({
-  color = "engred",
+  color = "mediumblue",
   transparent = false,
   image = null,
   text,
@@ -24,7 +24,7 @@ const Button = ({
         cursor: disabled ? "not-allowed" : "pointer",
       };
 
-  const baseClasses = `flex items-center justify-center gap-2 px-4 py-2 rounded-md font-medium transition duration-300 ${
+  const baseClasses = `flex items-center justify-center gap-2 px-4 py-2 rounded-md font-light transition duration-300 ${
     disabled ? "opacity-50" : ""
   } ${className}`;
   return (
